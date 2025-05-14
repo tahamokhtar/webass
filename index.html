@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Manager</title>
+    <link rel="stylesheet" href="taha.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Manager</h1>
+        <form id="employee-form">
+            <input type="hidden" id="employee-id" />
+            <input type="text" id="name" placeholder="Name" required />
+            <input type="number" id="age" placeholder="Age" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="text" id="skills" placeholder="Skills" required />
+            <button type="submit" id="submit-btn">Add Employee</button>
+            <button type="button" id="cancel-btn" style="display:none;">Cancel</button>
+        </form>
+        <div id="message"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Skills</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="employee-table-body"></tbody>
+        </table>
+    </div>
+    <script src="taha.js"></script>
+</body>
+</html>

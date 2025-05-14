@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+    <link rel="stylesheet" href="taha.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Edit Employee</h1>
+        <form id="edit-form">
+            <input type="hidden" id="employee-id" />
+            <input type="text" id="name" placeholder="Name" required />
+            <input type="number" id="age" placeholder="Age" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="text" id="skills" placeholder="Skills" required />
+            <button type="submit">Update Employee</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        const API_URL = 'https://jsonplaceholder.typicode.com/users';
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const form = document.getElementById('edit-form');
+        const nameInput = document.getElementById('name');
+        const ageInput = document.getElementById('age');
+        const emailInput = document.getElementById('email');
+        const skillsInput = document.getElementById('skills');
+        const employeeIdInput = document.getElementById('employee-id');
+        const messageBox = document.getElementById('message');
+
+        function showMessage(msg, type = 'success') {
+            messageBox.textContent = msg;
+            messageBox.className = type;
+            setTimeout(() => { messageBox.textContent = ''; messageBox.className = ''; }, 3000);
+        }
+
+        async function loadEmployee() {
+            try {
+                const res = await fetch(`${API_URL}/${id}`);
+                const emp = await res.json();
+                nameInput.value = emp.name;
+                ageInput.value = emp.age || '';
+                emailInput.value = emp.email;
+                skillsInput.value = emp.skills || '';
+                employeeIdInput.value = emp.id;
+            } catch {
+                showMessage('Failed to load employee data', 'error');
+            }
+        }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const empData = {
+                name: nameInput.value.trim(),
+                age: Number(ageInput.value.trim()),
+                email: emailInput.value.trim(),
+                skills: skillsInput.value.trim()
+            };
+            try {
+                const res = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(empData),
+                });
+                await res.json();
+                showMessage('Employee updated successfully');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } catch {
+                showMessage('Update failed', 'error');
+            }
+        });
+        loadEmployee();
+    </script>
+</body>
+
+</html>
